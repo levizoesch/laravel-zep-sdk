@@ -9,12 +9,16 @@ use ZepSDK\Exceptions\InternalServerErrorException;
 use ZepSDK\Exceptions\NotFoundErrorException;
 use ZepSDK\Exceptions\UnauthorizedErrorException;
 use ZepSDK\Exceptions\ZepErrorException;
+use ZepSDK\Traits\DocumentTrait;
 use ZepSDK\Traits\MemoryTrait;
+use ZepSDK\Traits\UserTrait;
 
 class ZepClient {
 
 
 	use MemoryTrait;
+	use UserTrait;
+	use DocumentTrait;
 
 	private string $BASE_URL;
 
@@ -38,9 +42,9 @@ class ZepClient {
 	/**
 	 * @throws JsonException
 	 */
-	public function get($path) {
+	public function get($path, $data = null) {
 
-		return json_decode($this->request('GET', $path), false, 512, JSON_THROW_ON_ERROR);
+		return json_decode($this->request('GET', $path, $data), false, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
@@ -83,10 +87,9 @@ class ZepClient {
 		$data = null,
 		$headers = [],
 		$timeoutMs = 60000,
-		$maxRetries = null
 	) : mixed {
 
-		$url         = $this->BASE_URL . $path;
+		$url = $this->BASE_URL . $path;
 
 		$defaultHeaders = [
 			'Content-Type: application/json',
@@ -139,10 +142,6 @@ class ZepClient {
 			throw new ZepErrorException();
 		}
 
-	}
-
-	public function sessionsOrdered() {
-		return $this->get('sessions-ordered');
 	}
 
 }
