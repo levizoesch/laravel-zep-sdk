@@ -1,7 +1,6 @@
 <?php
 namespace ZepSDK\Tests;
 
-
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 
 abstract class BaseTest extends \Orchestra\Testbench\TestCase
