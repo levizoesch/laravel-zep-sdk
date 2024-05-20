@@ -128,7 +128,7 @@ class ZepClient {
 		$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 
-		if ($statusCode === 200) {
+/*		if ($statusCode === 200) {
 			return $response;
 		} else if ($statusCode === 400) {
 			throw new BadRequestErrorException();
@@ -140,7 +140,9 @@ class ZepClient {
 			throw new InternalServerErrorException();
 		} else {
 			throw new ZepErrorException();
-		}
+		}*/
+
+		return $response;
 
 	}
 
