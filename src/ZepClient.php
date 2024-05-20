@@ -8,7 +8,6 @@ use ZepSDK\Exceptions\BadRequestErrorException;
 use ZepSDK\Exceptions\InternalServerErrorException;
 use ZepSDK\Exceptions\NotFoundErrorException;
 use ZepSDK\Exceptions\UnauthorizedErrorException;
-use ZepSDK\Exceptions\ZepErrorException;
 use ZepSDK\Traits\DocumentTrait;
 use ZepSDK\Traits\MemoryTrait;
 use ZepSDK\Traits\UserTrait;
@@ -117,6 +116,11 @@ class ZepClient {
 			curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, JSON_THROW_ON_ERROR));
 		}
 
+		// Comment out if you want to include SSL Verification (Added for local development)
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
 		$response = curl_exec($curl);
 
 		if ($response === false) {
@@ -128,9 +132,7 @@ class ZepClient {
 		$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 
-/*		if ($statusCode === 200) {
-			return $response;
-		} else if ($statusCode === 400) {
+		if ($statusCode === 400) {
 			throw new BadRequestErrorException();
 		} else if ($statusCode === 401) {
 			throw new UnauthorizedErrorException();
@@ -139,10 +141,8 @@ class ZepClient {
 		} else if ($statusCode === 500) {
 			throw new InternalServerErrorException();
 		} else {
-			throw new ZepErrorException();
-		}*/
-
-		return $response;
+			return $response;
+		}
 
 	}
 
