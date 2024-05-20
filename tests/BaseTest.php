@@ -3,7 +3,6 @@ namespace ZepSDK\Tests;
 
 
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
-use ZepSDK\ZepClient;
 
 abstract class BaseTest extends \Orchestra\Testbench\TestCase
 {
